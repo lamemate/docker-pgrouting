@@ -1,22 +1,20 @@
 #!bin/bash
 
-# Increase shared_buffers
-echo 'shared_buffers = 1024MB' >> /var/lib/postgresql/data/postgresql.conf
+# comment actual shared_buffers value
+sed -i -e 's/shared_buffers/#shared_buffers/g' /var/lib/postgresql/data/postgresql.conf
 
-# Increase work_mem
-echo 'work_mem = 32MB' >> /var/lib/postgresql/data/postgresql.conf
+# Insert new configuration
+cat >> /var/lib/postgresql/data/postgresql.conf <<'EOF'
 
-# Increase maintenance_work_mem
-echo 'maintenance_work_mem = 200MB' >> /var/lib/postgresql/data/postgresql.conf
+default_statistics_target = 50
+maintenance_work_mem = 200MB
+checkpoint_completion_target = 0.9
+work_mem = 32MB
+checkpoint_segments = 30
 
-# Increase wal_buffers
-echo 'wal_buffers = 1MB' >> /var/lib/postgresql/data/postgresql.conf
-
-# Increase checkpoint_segments
-echo 'checkpoint_segments = 30' >> /var/lib/postgresql/data/postgresql.conf
-
-# Increase checkpoint_completion_target
-echo 'checkpoint_completion_target = 0.9' >> /var/lib/postgresql/data/postgresql.conf
-
-# Increase checkpoint_timeout
-echo 'checkpoint_timeout = 15min' >> /var/lib/postgresql/data/postgresql.conf
+# SH: Tuning nach http://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
+effective_cache_size = 2GB # SH: abgerundet => 1/2 des Speichers (4 GB) / Anzahl der maximalen PostgreSQL-Instanzen (1)
+shared_buffers = 1GB # SH: abgerundet => 1/4 des Speichers (4 GB) / Anzahl der maximalen PostgreSQL-Instanzen (1)
+wal_buffers = 16MB # SH: 1/32 shared buffers und maximal 16 MB
+constraint_exclusion = partition # SH
+EOF
