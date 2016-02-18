@@ -4,5 +4,7 @@ psql --username postgres --dbname "$POSTGRES_DB" <<-ESQL
     CREATE EXTENSION postgis;
     -- Enable Topology
     CREATE EXTENSION postgis_topology;
+    -- Enable pgrouting
+    CREATE EXTENSION pgrouting;
 ESQL
 echo

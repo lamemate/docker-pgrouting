@@ -1,3 +1,3 @@
-FROM starefossen/pgrouting:9.4-2.1-2.1
+FROM starefossen/pgrouting
 
 ADD docker-entrypoint-initdb.d/* /docker-entrypoint-initdb.d/
