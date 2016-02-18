@@ -1,5 +1,3 @@
-FROM starefossen/pgrouting
-MAINTAINER Henning Steinke <henning.steinke@fu-berlin.de>
+FROM starefossen/pgrouting:9.4-2.1-2.1
 
-ADD customizePostgresqlConf.sh /docker-entrypoint-initdb.d/customizePostgresqlConf.sh
-RUN chmod 755 /docker-entrypoint-initdb.d/customizePostgresqlConf.sh
+ADD docker-entrypoint-initdb.d/* /docker-entrypoint-initdb.d/
